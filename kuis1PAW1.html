@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hitung Penjualan</title>
+</head>
+<body>
+<h2>Form Hitung Penjualan</h2>
+<form id="salesForm">
+    <label for="customerName">Nama Pelanggan:</label><br>
+    <input type="text" id="customerName" name="customerName"><br>
+    <label for="serviceCost">Biaya Jasa:</label><br>
+    <input type="number" id="serviceCost" name="serviceCost"><br>
+    <label for="sparepartCost">Biaya Sparepart:</label><br>
+    <input type="number" id="sparepartCost" name="sparepartCost"><br>
+    <label for="memberCode">Kode Member:</label><br>
+    <select id="memberCode" name="memberCode">
+        <option value="B">Member, Pelanggan Baru</option>
+        <option value="M">Member Lama</option>
+        <option value="N">Non Member</option>
+    </select><br><br>
+    <button type="button" onclick="calculateTotal()">Hitung Total</button>
+</form>
+
+<h2>Hasil Perhitungan</h2>
+<p id="subtotal">Subtotal: </p>
+<p id="discount">Diskon: </p>
+<p id="dpp">DPP: </p>
+<p id="ppn">PPN: </p>
+<p id="grandTotal">Total Penjualan (Setelah Pajak): </p>
+
+<script>
+function calculateTotal() {
+    var customerName = document.getElementById("customerName").value;
+    var serviceCost = parseFloat(document.getElementById("serviceCost").value);
+    var sparepartCost = parseFloat(document.getElementById("sparepartCost").value);
+    var memberCode = document.getElementById("memberCode").value;
+
+    var subtotal = serviceCost + sparepartCost;
+    var discountPercentage;
+
+    switch (memberCode) {
+        case "B":
+            discountPercentage = 0.25;
+            break;
+        case "M":
+            discountPercentage = 0.20;
+            break;
+        case "N":
+            discountPercentage = 0.10;
+            break;
+        default:
+            discountPercentage = 0;
+    }
+
+    var discount = subtotal * discountPercentage;
+    var dpp = subtotal - discount;
+    var ppn = 0.11 * dpp;
+    var grandTotal = dpp + ppn;
+
+    document.getElementById("subtotal").innerHTML = "Subtotal: " + subtotal.toFixed(2);
+    document.getElementById("discount").innerHTML = "Diskon: " + discount.toFixed(2);
+    document.getElementById("dpp").innerHTML = "DPP: " + dpp.toFixed(2);
+    document.getElementById("ppn").innerHTML = "PPN: " + ppn.toFixed(2);
+    document.getElementById("grandTotal").innerHTML = "Total Penjualan (Setelah Pajak): " + grandTotal.toFixed(2);
+}
+</script>
+
+</body>
+</html>
